@@ -7,6 +7,3 @@ docker-compose up --build
 
 Django: localhost:8000
 Vue: localhost:8080
-
-npm install --save-dev jest @vue/test-utils babel-jest vue-jest
-npm run test:unit
