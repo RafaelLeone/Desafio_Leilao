@@ -2,7 +2,10 @@
     <div>
         <h1>Items</h1>
         <ul>
-            <li v-for="item in items" :key="item.id">{{ item.name }}: {{ item.description }}</li>
+            <li v-for="item in items" :key="item.id">
+                {{ item.name }}: {{ item.description }}
+                <button @click="deleteItem(item.id)">Delete</button>
+            </li>
         </ul>
         <form @submit.prevent="addItem">
             <input v-model="newItem.name" placeholder="Name" required />
@@ -13,7 +16,7 @@
 </template>
 
 <script>
-import { getItems, createItem } from '@/services/api';
+import { getItems, createItem, deleteItem } from '@/services/api';
 
 export default {
     data() {
@@ -34,6 +37,10 @@ export default {
             this.items.push(item);
             this.newItem.name = '';
             this.newItem.description = '';
+        },
+        async deleteItem(itemId) {
+            await deleteItem(itemId);
+            this.items = this.items.filter(item => item.id !== itemId);
         },
     },
 };
