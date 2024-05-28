@@ -1,15 +1,11 @@
 <template>
   <div id="app">
-      <ItemList />
+    <router-view /> <!-- This is where the components corresponding to the routes will be rendered -->
   </div>
 </template>
 
 <script>
-import ItemList from './components/ItemList.vue';
-
 export default {
-  components: {
-      ItemList,
-  },
+  // No need to import any components here since they will be rendered dynamically based on the routes
 };
 </script>

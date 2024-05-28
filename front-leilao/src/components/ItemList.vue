@@ -2,8 +2,9 @@
     <div>
         <h1>Items</h1>
         <ul>
-            <li v-for="item in items" :key="item.id">
+            <li v-for="item in items" :key="item.id"> 
                 {{ item.name }}: {{ item.description }}
+                <button @click="viewItem(item.id)">View Details</button>
                 <button @click="deleteItem(item.id)">Delete</button>
             </li>
         </ul>
@@ -41,6 +42,9 @@ export default {
         async deleteItem(itemId) {
             await deleteItem(itemId);
             this.items = this.items.filter(item => item.id !== itemId);
+        },
+        viewItem(itemId) {
+            this.$router.push({ name: 'ItemDetail', params: { id: itemId } });
         },
     },
 };
