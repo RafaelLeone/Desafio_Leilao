@@ -16,8 +16,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include, path
+from leilao.views import ObtainTokenView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include('leilao.urls')),
+    path('api/token/', ObtainTokenView.as_view(), name='token_obtain'),
 ]

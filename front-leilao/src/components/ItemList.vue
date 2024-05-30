@@ -1,5 +1,6 @@
 <template>
     <div>
+        <button @click="logout">Logout</button>
         <h1>Items</h1>
         <ul>
             <li v-for="item in items" :key="item.id"> 
@@ -45,6 +46,10 @@ export default {
         },
         viewItem(itemId) {
             this.$router.push({ name: 'ItemDetail', params: { id: itemId } });
+        },
+        logout() {
+            localStorage.removeItem('token'); // Remove the token from local storage
+            this.$router.push('/login'); // Redirect to the login page
         },
     },
 };

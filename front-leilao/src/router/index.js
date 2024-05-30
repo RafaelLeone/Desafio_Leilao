@@ -1,7 +1,10 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
-import ItemList from '@/components/ItemList.vue'; // Adjust the path if needed
-import ItemDetail from '@/components/ItemDetail.vue'; 
+import ItemList from '@/components/ItemList.vue';
+import ItemDetail from '@/components/ItemDetail.vue';
+import LoginPage from '@/components/LoginPage.vue';
+import RegisterPage from '@/components/RegisterPage.vue';
+import { isAuthenticated } from '@/services/auth'; // Implement this function to check if the user is authenticated
 
 Vue.use(VueRouter);
 
@@ -9,20 +12,39 @@ const routes = [
   {
     path: '/',
     name: 'ItemList',
-    component: ItemList, // Replace 'Home' with the component you want to use as the homepage
+    component: ItemList,
+    meta: { requiresAuth: true },
   },
   {
-    path: '/item/:id/', // Define dynamic route parameter
+    path: '/item/:id/',
     name: 'ItemDetail',
-    component: ItemDetail, // Replace 'ItemDetail' with the component you want to use for item detail
+    component: ItemDetail,
+    meta: { requiresAuth: true },
   },
-  // Other routes...
+  {
+    path: '/login/',
+    name: 'LoginPage',
+    component: LoginPage,
+  },
+  {
+    path: '/register/',
+    name: 'RegisterPage',
+    component: RegisterPage,
+  },
 ];
 
 const router = new VueRouter({
-  mode: 'history', // Optional: Use 'history' mode for clean URLs
+  mode: 'history',
   base: process.env.BASE_URL,
   routes,
+});
+
+router.beforeEach((to, from, next) => {
+  if (to.meta.requiresAuth && !isAuthenticated()) {
+    next('/login');
+  } else {
+    next();
+  }
 });
 
 export default router;

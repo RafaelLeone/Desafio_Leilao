@@ -19,47 +19,46 @@
     </div>
   </template>
   
-  <script>
-  import axios from 'axios';
-  
-  export default {
-    data() {
-      return {
-        item: null,
-        editedItem: {
-          name: '',
-          description: ''
-        },
-        API_URL: 'http://localhost:8000/api/'
-      };
+<script>
+import axiosInstance from '@/services/api';
+
+export default {
+  data() {
+    return {
+      item: null,
+      editedItem: {
+        name: '',
+        description: ''
+      }
+    };
+  },
+  async created() {
+    await this.fetchItem();
+  },
+  methods: {
+    async fetchItem() {
+      try {
+        const response = await axiosInstance.get(`items/${this.$route.params.id}/`);
+        this.item = response.data;
+        this.editedItem = { ...this.item }; // Make a copy for editing
+      } catch (error) {
+        console.error('Error fetching item details:', error);
+      }
     },
-    async created() {
-      await this.fetchItem();
+    async saveChanges() {
+      try {
+        await axiosInstance.put(`items/${this.item.id}/`, this.editedItem);
+        alert('Changes saved successfully!');
+        this.$router.push({ name: 'ItemList'});
+      } catch (error) {
+        console.error('Error saving changes:', error);
+        alert('Failed to save changes. Please try again.');
+      }
     },
-    methods: {
-      async fetchItem() {
-        try {
-          const response = await axios.get(this.API_URL + `items/${this.$route.params.id}/`);
-          this.item = response.data;
-          this.editedItem = { ...this.item }; // Make a copy for editing
-        } catch (error) {
-          console.error('Error fetching item details:', error);
-        }
-      },
-      async saveChanges() {
-        try {
-          await axios.put(this.API_URL + `items/${this.item.id}/`, this.editedItem);
-          alert('Changes saved successfully!');
-        } catch (error) {
-          console.error('Error saving changes:', error);
-          alert('Failed to save changes. Please try again.');
-        }
-        this.$router.push({ name: 'ItemList'});
-      },
-      goBack() {
-        this.$router.push({ name: 'ItemList'});
-      },
+    goBack() {
+      this.$router.push({ name: 'ItemList'});
     }
-  };
-  </script>
+  }
+};
+</script>
   
