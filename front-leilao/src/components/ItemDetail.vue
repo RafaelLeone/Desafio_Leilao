@@ -39,6 +39,7 @@ export default {
         this.editedItem = { ...this.item };
       } catch (error) {
         console.error('Error fetching item details:', error);
+        this.$router.push('/login');
       }
     },
     async saveChanges() {

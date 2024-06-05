@@ -15,7 +15,7 @@
           <input type="password" v-model="password" required />
         </div>
         <button type="submit">Register</button>
-        <button @click="logout">Back</button>
+        <button @click="goBack">Back</button>
       </form>
     </div>
   </template>
@@ -48,7 +48,7 @@
           alert('Registration failed. Please try again.');
         }
       },
-      logout() {
+      goBack() {
         this.$router.push('/login'); // Redirect to the login page
       },
     },

@@ -6,10 +6,10 @@
             <li v-for="item in items" :key="item.id"> 
                 {{ item.name }}: {{ item.description }}
                 <button @click="viewItem(item.id)">View Details</button>
-                <button @click="deleteItem(item.id)">Delete</button>
+                <button v-if="isEditor" @click="deleteItem(item.id)">Delete</button>
             </li>
         </ul>
-        <form @submit.prevent="addItem">
+        <form v-if="isEditor" @submit.prevent="addItem">
             <input v-model="newItem.name" placeholder="Name" required />
             <input v-model="newItem.description" placeholder="Description" required />
             <button type="submit">Add Item</button>
@@ -24,6 +24,7 @@ export default {
     data() {
         return {
             items: [],
+            isEditor: false,
             newItem: {
                 name: '',
                 description: '',
@@ -31,9 +32,18 @@ export default {
         };
     },
     async created() {
-        this.items = await getItems();
+        this.fetchItems();
+        this.checkRole();
     },
     methods: {
+        async fetchItems() {
+            try {
+                this.items = await getItems();
+            } catch (error) {
+                console.error('Error fetching items:', error);
+                this.$router.push('/login');
+            }
+        },
         async addItem() {
             const item = await createItem(this.newItem);
             this.items.push(item);
@@ -48,8 +58,14 @@ export default {
             this.$router.push({ name: 'ItemDetail', params: { id: itemId } });
         },
         logout() {
-            localStorage.removeItem('token'); // Remove the token from local storage
-            this.$router.push('/login'); // Redirect to the login page
+            localStorage.setItem('isAuthenticated', 'false');
+            localStorage.removeItem('token');
+            localStorage.removeItem('username');
+            this.$router.push('/login');
+        },
+        checkRole() {
+            const username = localStorage.getItem('username');
+            this.isEditor = username && username.length === 14;
         },
     },
 };
