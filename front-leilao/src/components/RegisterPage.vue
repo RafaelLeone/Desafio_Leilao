@@ -15,6 +15,7 @@
           <input type="password" v-model="password" required />
         </div>
         <button type="submit">Register</button>
+        <button @click="logout">Back</button>
       </form>
     </div>
   </template>
@@ -32,17 +33,24 @@
     },
     methods: {
       async register() {
+        const usernamePattern = /^\d{11}$|^\d{14}$/;
+        if (!usernamePattern.test(this.username)) {
+          alert('Username must be an 11-digit or 14-digit number.');
+          return;
+        }
+        
         try {
-          const userData = {
-            username: this.username,
-            email: this.email,
-            password: this.password,
-          };
-          await register(userData);
+          await register({ username: this.username, email: this.email, password: this.password });
+          alert('Registration successful');
           this.$router.push('/login');
         } catch (error) {
           console.error('Error during registration:', error);
+          alert('Registration failed. Please try again.');
         }
+      },
+      logout() {
+        localStorage.removeItem('token'); // Remove the token from local storage
+        this.$router.push('/login'); // Redirect to the login page
       },
     },
   };

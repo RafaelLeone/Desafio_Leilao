@@ -11,6 +11,7 @@
           <input type="password" v-model="password" required />
         </div>
         <button type="submit">Login</button>
+        <button @click="goToRegister">Register</button>
       </form>
     </div>
   </template>
@@ -38,6 +39,9 @@
         } catch (error) {
           console.error('Error during login:', error);
         }
+      },
+      goToRegister() {
+        this.$router.push('/register'); // Redirect to the login page
       },
     },
   };

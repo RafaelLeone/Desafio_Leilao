@@ -1,5 +1,6 @@
 <template>
     <div>
+      <button @click="logout">Logout</button>
       <h1>Item Details</h1>
       <div v-if="item">
         <div>
@@ -57,7 +58,11 @@ export default {
     },
     goBack() {
       this.$router.push({ name: 'ItemList'});
-    }
+    },
+    logout() {
+      localStorage.removeItem('token'); // Remove the token from local storage
+      this.$router.push('/login'); // Redirect to the login page
+    },
   }
 };
 </script>
