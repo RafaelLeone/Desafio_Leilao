@@ -3,6 +3,7 @@
     <div v-if="item">
       <h1>{{ item.name }}</h1>
       <p>{{ item.description }}</p>
+      <p>{{ item.creator_username }}</p>
       <div v-if="isEditor">
         <input v-model="editedItem.name" placeholder="Name" />
         <input v-model="editedItem.description" placeholder="Description" />

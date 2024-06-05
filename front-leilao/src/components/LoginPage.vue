@@ -38,6 +38,8 @@
           localStorage.setItem('username', this.username);
           this.$router.push('/');
         } catch (error) {
+          localStorage.setItem('isAuthenticated', 'false');
+          localStorage.removeItem('username');
           console.error('Error during login:', error);
         }
       },

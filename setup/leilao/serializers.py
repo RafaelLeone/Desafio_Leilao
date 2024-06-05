@@ -18,7 +18,14 @@ class RegisterSerializer(serializers.ModelSerializer):
         )
         return user
 
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['id', 'username']
+
 class ItemSerializer(serializers.ModelSerializer):
+    creator_username = serializers.ReadOnlyField(source='creator.username')
+    
     class Meta:
         model = Item
         fields = '__all__'
