@@ -3,7 +3,7 @@
       <h2>Register</h2>
       <form @submit.prevent="register">
         <div>
-          <label for="username">Username:</label>
+          <label for="username">CPF/CNPJ:</label>
           <input type="text" v-model="username" required />
         </div>
         <div>
@@ -35,7 +35,7 @@
       async register() {
         const usernamePattern = /^\d{11}$|^\d{14}$/;
         if (!usernamePattern.test(this.username)) {
-          alert('Username must be an 11-digit or 14-digit number.');
+          alert('CPF/CNPJ inválido.');
           return;
         }
         
@@ -49,7 +49,6 @@
         }
       },
       logout() {
-        localStorage.removeItem('token'); // Remove the token from local storage
         this.$router.push('/login'); // Redirect to the login page
       },
     },

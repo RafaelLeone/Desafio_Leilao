@@ -9,6 +9,7 @@ from .models import Item
 from .serializers import ItemSerializer
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.models import User
+from .permissions import IsEditor
 
 from .serializers import RegisterSerializer
 
@@ -72,3 +73,19 @@ class ItemDetailView(APIView):
             return Response(serializer.data, status=status.HTTP_200_OK)
         except Item.DoesNotExist:
             return Response({'error': 'Item not found'}, status=status.HTTP_404_NOT_FOUND)
+
+class ItemEditView(APIView):
+    permission_classes = [IsAuthenticated, IsEditor]
+
+    def put(self, request, item_id):
+        item = Item.objects.get(id=item_id)
+        serializer = ItemSerializer(item, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, item_id):
+        item = Item.objects.get(id=item_id)
+        item.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)

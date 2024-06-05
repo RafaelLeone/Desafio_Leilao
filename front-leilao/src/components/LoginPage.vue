@@ -3,7 +3,7 @@
       <h2>Login</h2>
       <form @submit.prevent="login">
         <div>
-          <label for="username">Username:</label>
+          <label for="username">CPF/CNPJ:</label>
           <input type="text" v-model="username" required />
         </div>
         <div>
@@ -35,6 +35,7 @@
           };
           await login(credentials);
           localStorage.setItem('isAuthenticated', 'true');
+          localStorage.setItem('username', this.username);
           this.$router.push('/');
         } catch (error) {
           console.error('Error during login:', error);
