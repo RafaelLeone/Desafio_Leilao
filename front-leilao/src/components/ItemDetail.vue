@@ -1,26 +1,20 @@
 <template>
-    <div>
-      <h1>Item Details</h1>
-      <div v-if="item">
-        <div>
-          <label>Name:</label>
-          <input v-model="editedItem.name" />
-        </div>
-        <div>
-          <label>Description:</label>
-          <textarea v-model="editedItem.description"></textarea>
-        </div>
+  <div>
+    <div v-if="item">
+      <h1>{{ item.name }}</h1>
+      <p>{{ item.description }}</p>
+      <div v-if="isEditor">
+        <input v-model="editedItem.name" placeholder="Name" />
+        <input v-model="editedItem.description" placeholder="Description" />
         <button @click="saveChanges">Save Changes</button>
-        <button @click="goBack">Back</button>
       </div>
-      <div v-else>
-        <p>Loading...</p>
-      </div>
+      <button @click="goBack">Back</button>
     </div>
-  </template>
-  
+  </div>
+</template>
+
 <script>
-import axiosInstance from '@/services/api';
+import { getItem, updateItem } from '@/services/api';
 
 export default {
   data() {
@@ -29,36 +23,42 @@ export default {
       editedItem: {
         name: '',
         description: ''
-      }
+      },
+      isEditor: false
     };
   },
   async created() {
     await this.fetchItem();
+    this.checkRole();
   },
   methods: {
     async fetchItem() {
       try {
-        const response = await axiosInstance.get(`items/${this.$route.params.id}/`);
-        this.item = response.data;
-        this.editedItem = { ...this.item }; // Make a copy for editing
+        const response = await getItem(this.$route.params.id);
+        this.item = response;
+        this.editedItem = { ...this.item };
       } catch (error) {
         console.error('Error fetching item details:', error);
+        this.$router.push('/login');
       }
     },
     async saveChanges() {
       try {
-        await axiosInstance.put(`items/${this.item.id}/`, this.editedItem);
+        await updateItem(this.item.id, this.editedItem);
         alert('Changes saved successfully!');
-        this.$router.push({ name: 'ItemList'});
       } catch (error) {
         console.error('Error saving changes:', error);
         alert('Failed to save changes. Please try again.');
       }
+      this.$router.push({ name: 'ItemList' });
     },
     goBack() {
-      this.$router.push({ name: 'ItemList'});
+      this.$router.push({ name: 'ItemList' });
+    },
+    checkRole() {
+      const username = localStorage.getItem('username');
+      this.isEditor = username && username.length === 14;
     }
   }
 };
 </script>
-  

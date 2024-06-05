@@ -3,7 +3,7 @@
       <h2>Register</h2>
       <form @submit.prevent="register">
         <div>
-          <label for="username">Username:</label>
+          <label for="username">CPF/CNPJ:</label>
           <input type="text" v-model="username" required />
         </div>
         <div>
@@ -15,6 +15,7 @@
           <input type="password" v-model="password" required />
         </div>
         <button type="submit">Register</button>
+        <button @click="goBack">Back</button>
       </form>
     </div>
   </template>
@@ -32,17 +33,23 @@
     },
     methods: {
       async register() {
+        const usernamePattern = /^\d{11}$|^\d{14}$/;
+        if (!usernamePattern.test(this.username)) {
+          alert('CPF/CNPJ inválido.');
+          return;
+        }
+        
         try {
-          const userData = {
-            username: this.username,
-            email: this.email,
-            password: this.password,
-          };
-          await register(userData);
+          await register({ username: this.username, email: this.email, password: this.password });
+          alert('Registration successful');
           this.$router.push('/login');
         } catch (error) {
           console.error('Error during registration:', error);
+          alert('Registration failed. Please try again.');
         }
+      },
+      goBack() {
+        this.$router.push('/login'); // Redirect to the login page
       },
     },
   };
