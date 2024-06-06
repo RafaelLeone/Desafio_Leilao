@@ -4,14 +4,19 @@
         <h1>Items</h1>
         <ul>
             <li v-for="item in items" :key="item.id"> 
-                {{ item.name }}: {{ item.description }}
+                Leilão {{ item.id }}: {{ item.category }}
+                {{ item.auction_date }}
+                {{ item.city }}, {{ item.state }}
                 <button @click="viewItem(item.id)">View Details</button>
                 <button v-if="isEditor" @click="deleteItem(item.id)">Delete</button>
             </li>
         </ul>
         <form v-if="isEditor" @submit.prevent="addItem">
-            <input v-model="newItem.name" placeholder="Name" required />
-            <input v-model="newItem.description" placeholder="Description" required />
+            <input v-model="newItem.category" placeholder="Categoria" required />
+            <input v-model="newItem.auction_date" placeholder="Data do leilão" required />
+            <input v-model="newItem.city" placeholder="Cidade" required />
+            <input v-model="newItem.state" placeholder="Estado" required />
+            <input v-model="newItem.street" placeholder="Endereço" required />
             <button type="submit">Add Item</button>
         </form>
     </div>

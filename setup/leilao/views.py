@@ -5,8 +5,8 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.views import APIView
 from rest_framework import status
 from rest_framework.authtoken.models import Token
-from .models import Item
-from .serializers import ItemSerializer
+from .models import Item, RealEstate, Vehicle
+from .serializers import ItemSerializer, RealEstateSerializer, VehicleSerializer
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.models import User
 from .permissions import IsEditor
@@ -62,6 +62,14 @@ class ItemViewSet(viewsets.ModelViewSet):
     queryset = Item.objects.all()
     serializer_class = ItemSerializer
     permission_classes = [IsAuthenticated]
+
+class RealEstateViewSet(viewsets.ModelViewSet):
+    queryset = RealEstate.objects.all()
+    serializer_class = RealEstateSerializer
+
+class VehicleViewSet(viewsets.ModelViewSet):
+    queryset = Vehicle.objects.all()
+    serializer_class = VehicleSerializer
 
 class ItemDetailView(APIView):
     permission_classes = [IsAuthenticated]

@@ -1,12 +1,25 @@
 <template>
   <div>
     <div v-if="item">
-      <h1>{{ item.name }}</h1>
-      <p>{{ item.description }}</p>
-      <p>{{ item.creator_username }}</p>
+      <h1>Leilão {{ item.id }}</h1>
+      <p>{{ item.category }} auction</p>
+      <p>Auction Date: {{ item.auction_date }}</p>
+      <p>by {{ item.creator_username }}</p>
+      <div v-if="item.category === 'Real Estate'">
+        <h2>Real Estates</h2>
+        <ul>
+          <li v-for="estate in item.real_estates" :key="estate.id">{{ estate.field_name }}</li>
+        </ul>
+      </div>
+      <div v-if="item.category === 'Vehicle'">
+        <h2>Vehicles</h2>
+        <ul>
+          <li v-for="vehicle in item.vehicles" :key="vehicle.id">{{ vehicle.field_name }}</li>
+        </ul>
+      </div>
       <div v-if="isEditor">
-        <input v-model="editedItem.name" placeholder="Name" />
-        <input v-model="editedItem.description" placeholder="Description" />
+        <input v-model="editedItem.auction_date" placeholder="Name" />
+        <input v-model="editedItem.category" placeholder="Description" />
         <button @click="saveChanges">Save Changes</button>
       </div>
       <button @click="goBack">Back</button>
