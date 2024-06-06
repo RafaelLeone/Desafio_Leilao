@@ -4,11 +4,11 @@
         <h1>Items</h1>
         <ul>
             <li v-for="item in items" :key="item.id"> 
-                Leilão {{ item.id }}: {{ item.category }}
-                {{ item.auction_date }}
-                {{ item.city }}, {{ item.state }}
-                <button @click="viewItem(item.id)">View Details</button>
-                <button v-if="isEditor" @click="deleteItem(item.id)">Delete</button>
+                <p>Leilão {{ item.id }}: {{ item.category }}</p>
+                <p>{{ item.auction_date }}</p>
+                <p>{{ item.city }}, {{ item.state }}</p>
+                <p><button @click="viewItem(item.id)">View Details</button></p>
+                <p><button v-if="isEditor" @click="deleteItem(item.id)">Delete</button></p>
             </li>
         </ul>
         <form v-if="isEditor" @submit.prevent="addItem">
