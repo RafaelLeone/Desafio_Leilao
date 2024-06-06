@@ -60,4 +60,4 @@ class ItemSerializer(serializers.ModelSerializer):
         }
         month = obj.auction_date.strftime('%B')
         portuguese_month = month_translation[month]
-        return obj.auction_date.strftime(f'%d de {portuguese_month} de %Y, %H:%M %p')
+        return obj.auction_date.strftime(f'%d de {portuguese_month} de %Y')

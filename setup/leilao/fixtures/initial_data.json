@@ -6,7 +6,8 @@
             "created_at": "2023-05-01T00:00:00",
             "creator": 4,
             "category": "Veículo",
-            "auction_date": "2023-05-10T12:00:00",
+            "auction_date": "2023-05-10",
+            "auction_time": "12:00:00",
             "city": "Sample City",
             "state": "Sample State",
             "street": "Sample Street"
@@ -19,7 +20,8 @@
             "created_at": "2023-05-01T00:00:00",
             "creator": 4,
             "category": "Imóvel",
-            "auction_date": "2023-05-11T14:00:00",
+            "auction_date": "2023-05-11",
+            "auction_time": "14:00:00",
             "city": "Another City",
             "state": "Another State",
             "street": "Another Street"

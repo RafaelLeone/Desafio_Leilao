@@ -6,33 +6,68 @@
             <li v-for="item in items" :key="item.id"> 
                 <p>Leilão {{ item.id }}: {{ item.category }}</p>
                 <p>{{ item.auction_date }}</p>
+                <p>{{ item.auction_time }}</p>
                 <p>{{ item.city }}, {{ item.state }}</p>
                 <p><button @click="viewItem(item.id)">View Details</button></p>
                 <p><button v-if="isEditor" @click="deleteItem(item.id)">Delete</button></p>
             </li>
         </ul>
         <form v-if="isEditor" @submit.prevent="addItem">
-            <input v-model="newItem.category" placeholder="Categoria" required />
-            <input v-model="newItem.auction_date" placeholder="Data do leilão" required />
-            <input v-model="newItem.city" placeholder="Cidade" required />
-            <input v-model="newItem.state" placeholder="Estado" required />
-            <input v-model="newItem.street" placeholder="Endereço" required />
-            <button type="submit">Add Item</button>
+            <div>
+                <label>Categoria:</label>
+                <div>
+                    <input type="radio" id="veiculo" value="Veículo" v-model="newItem.category">
+                    <label for="veiculo">Veículo</label>
+                    <input type="radio" id="imovel" value="Imóvel" v-model="newItem.category">
+                    <label for="imovel">Imóvel</label>
+                </div>
+                <div>
+                    <label>Data do leilão:</label>
+                    <datetime v-model="newItem.auction_date" :value="newItem.auction_date" format="dd/MM/yyyy" required :useUtc="false"></datetime>
+                </div>
+                <div>
+                    <label>Horário do leilão:</label>
+                    <input type="time" v-model="newItem.auction_time" required>
+                </div>
+                <div>
+                    <label for="city">Cidade</label>
+                    <input id="city" v-model="newItem.city" placeholder="Cidade" required />
+                </div>
+                <div>
+                    <label for="state">Estado</label>
+                    <input id="state" v-model="newItem.state" placeholder="Estado" required />
+                </div>
+                <div>
+                    <label for="street">Endereço</label>
+                    <input id="street" v-model="newItem.street" placeholder="Endereço" required />
+                </div>
+                <button type="submit">Add Item</button>
+            </div>
         </form>
     </div>
 </template>
 
 <script>
 import { getItems, createItem, deleteItem } from '@/services/api';
+import { Datetime } from 'vue-datetime';
+import 'vue-datetime/dist/vue-datetime.css';
 
 export default {
+    components: {
+        Datetime,
+    },
     data() {
         return {
             items: [],
             isEditor: false,
             newItem: {
-                name: '',
-                description: '',
+                creator: '',
+                category: '',
+                auction_date: '',
+                auction_time: '',
+                city: '',
+                state: '',
+                street: ''
             },
         };
     },
