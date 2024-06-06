@@ -37,13 +37,13 @@ class ItemSerializer(serializers.ModelSerializer):
     creator_username = serializers.ReadOnlyField(source='creator.username')
     real_estates = RealEstateSerializer(many=True, read_only=True)
     vehicles = VehicleSerializer(many=True, read_only=True)
-    auction_date = serializers.SerializerMethodField()
+    auction_date_display = serializers.SerializerMethodField()
 
     class Meta:
         model = Item
-        fields = '__all__'
+        fields = ['id', 'created_at', 'creator', 'category', 'auction_date', 'auction_time', 'street', 'city', 'state', 'creator_username', 'real_estates', 'vehicles', 'auction_date_display']
 
-    def get_auction_date(self, obj):
+    def get_auction_date_display(self, obj):
         month_translation = {
             'January': 'Janeiro',
             'February': 'Fevereiro',

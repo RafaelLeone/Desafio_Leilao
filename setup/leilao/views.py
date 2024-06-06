@@ -6,7 +6,7 @@ from rest_framework.views import APIView
 from rest_framework import status
 from rest_framework.authtoken.models import Token
 from .models import Item, RealEstate, Vehicle
-from .serializers import ItemSerializer, RealEstateSerializer, VehicleSerializer
+from .serializers import ItemSerializer, RealEstateSerializer, VehicleSerializer, UserSerializer
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.models import User
 from .permissions import IsEditor
@@ -63,6 +63,10 @@ class ItemViewSet(viewsets.ModelViewSet):
     serializer_class = ItemSerializer
     permission_classes = [IsAuthenticated]
 
+    def create(self, request, *args, **kwargs):
+        print("Received data:", request.data)
+        return super().create(request, *args, **kwargs)
+
 class RealEstateViewSet(viewsets.ModelViewSet):
     queryset = RealEstate.objects.all()
     serializer_class = RealEstateSerializer
@@ -97,3 +101,12 @@ class ItemEditView(APIView):
         item = Item.objects.get(id=item_id)
         item.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+class UserViewSet(viewsets.ModelViewSet):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
+class UserDetailView(generics.RetrieveAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    lookup_field = 'username'

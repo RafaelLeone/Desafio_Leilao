@@ -35,6 +35,11 @@ export const getItems = async () => {
   return response.data;
 };
 
+export const getUserId = async (username) => {
+  const response = await axiosInstance.get(`${API_URL}users/${username}/`);
+  return response.data.user_id;
+};
+
 export const createItem = async (item) => {
   const response = await axiosInstance.post('items/', item);
   return response.data;
