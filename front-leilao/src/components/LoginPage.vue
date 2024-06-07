@@ -7,11 +7,11 @@
           <input type="text" v-model="username" required />
         </div>
         <div>
-          <label for="password">Password:</label>
+          <label for="password">Senha:</label>
           <input type="password" v-model="password" required />
         </div>
         <button type="submit">Login</button>
-        <button @click="goToRegister">Register</button>
+        <button @click="goToRegister">Registrar-se</button>
       </form>
     </div>
   </template>

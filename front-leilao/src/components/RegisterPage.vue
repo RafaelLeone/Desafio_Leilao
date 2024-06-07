@@ -7,15 +7,15 @@
           <input type="text" v-model="username" required />
         </div>
         <div>
-          <label for="email">Email:</label>
+          <label for="email">E-mail:</label>
           <input type="email" v-model="email" required />
         </div>
         <div>
-          <label for="password">Password:</label>
+          <label for="password">Senha:</label>
           <input type="password" v-model="password" required />
         </div>
-        <button type="submit">Register</button>
-        <button @click="goBack">Back</button>
+        <button type="submit">Registrar-se</button>
+        <button @click="goBack">Voltar</button>
       </form>
     </div>
   </template>
