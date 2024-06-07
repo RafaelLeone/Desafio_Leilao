@@ -1,14 +1,14 @@
 <template>
     <div>
         <button @click="logout">Logout</button>
-        <h1>Items</h1>
+        <h1>Leilões</h1>
         <ul>
             <li v-for="item in items" :key="item.id"> 
                 <p>Leilão {{ item.id }}: {{ item.category }}</p>
                 <p>{{ item.auction_date_display }}</p>
                 <p>{{ item.auction_time }}</p>
                 <p>{{ item.city }}, {{ item.state }}</p>
-                <p><button @click="viewItem(item.id)">View Details</button></p>
+                <p><button @click="viewItem(item.id)">Ver detalhes do leilão</button></p>
                 <p><button v-if="isEditor" @click="deleteItem(item.id)">Delete</button></p>
             </li>
         </ul>
@@ -41,7 +41,7 @@
                     <label for="street">Endereço</label>
                     <input id="street" v-model="newItem.street" placeholder="Endereço" required />
                 </div>
-                <button type="submit">Add Item</button>
+                <button type="submit">Adicionar leilão</button>
             </div>
         </form>
     </div>
@@ -121,6 +121,7 @@ export default {
             localStorage.setItem('isAuthenticated', 'false');
             localStorage.removeItem('token');
             localStorage.removeItem('username');
+            localStorage.removeItem('userId');
             this.$router.push('/login');
         },
         checkRole() {
