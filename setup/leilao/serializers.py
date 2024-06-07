@@ -1,4 +1,4 @@
-from .models import Item
+from .models import Item, RealEstate, Vehicle
 from django.contrib.auth.models import User
 from rest_framework import serializers
 
@@ -18,7 +18,46 @@ class RegisterSerializer(serializers.ModelSerializer):
         )
         return user
 
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['id', 'username']
+
+class RealEstateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = RealEstate
+        fields = '__all__'
+
+class VehicleSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Vehicle
+        fields = '__all__'
+
 class ItemSerializer(serializers.ModelSerializer):
+    creator_username = serializers.ReadOnlyField(source='creator.username')
+    real_estates = RealEstateSerializer(many=True, read_only=True)
+    vehicles = VehicleSerializer(many=True, read_only=True)
+    auction_date_display = serializers.SerializerMethodField()
+
     class Meta:
         model = Item
-        fields = '__all__'
+        fields = ['id', 'created_at', 'creator', 'category', 'auction_date', 'auction_time', 'street', 'city', 'state', 'creator_username', 'real_estates', 'vehicles', 'auction_date_display']
+
+    def get_auction_date_display(self, obj):
+        month_translation = {
+            'January': 'Janeiro',
+            'February': 'Fevereiro',
+            'March': 'Março',
+            'April': 'Abril',
+            'May': 'Maio',
+            'June': 'Junho',
+            'July': 'Julho',
+            'August': 'Agosto',
+            'September': 'Setembro',
+            'October': 'Outubro',
+            'November': 'Novembro',
+            'December': 'Dezembro',
+        }
+        month = obj.auction_date.strftime('%B')
+        portuguese_month = month_translation[month]
+        return obj.auction_date.strftime(f'%d de {portuguese_month} de %Y')
