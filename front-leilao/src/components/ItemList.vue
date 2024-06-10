@@ -45,11 +45,40 @@
                 <button type="submit">Adicionar leilão</button>
             </div>
         </form>
+        <form v-if="isEditor" @submit.prevent="addProduct">
+            <div>
+                <h2>Adicione um novo produto:</h2>
+                <label>Categoria:</label>
+                <div>
+                    <input type="radio" id="veiculo" value="Veículo" v-model="newProductCategory">
+                    <label for="veiculo">Veículo</label>
+                    <input type="radio" id="imovel" value="Imóvel" v-model="newProductCategory">
+                    <label for="imovel">Imóvel</label>
+                </div>
+                <div>
+                    <label>Nome/descrição do produto:</label>
+                    <input v-model="newProduct.name" required>
+                </div>
+                <div>
+                    <label>Preço do produto:</label>
+                    <input v-model="newProduct.starting_price" required>
+                </div>
+                <div>
+                    <label>Valor do incremento:</label>
+                    <input v-model="newProduct.increment_value" required>
+                </div>
+                <div>
+                    <label>Leilão:</label>
+                    <input v-model="newProduct.item" required>
+                </div>
+                <button type="submit">Adicionar produto</button>
+            </div>
+        </form>
     </div>
 </template>
 
 <script>
-import { getItems, getUserId, createItem, deleteItem } from '@/services/api';
+import { getItems, getUserId, createItem, deleteItem, createVehicle, createRealEstate, getItem } from '@/services/api';
 import { Datetime } from 'vue-datetime';
 import 'vue-datetime/dist/vue-datetime.css';
 
@@ -71,6 +100,13 @@ export default {
                 city: '',
                 state: '',
                 street: ''
+            },
+            newProductCategory: '',
+            newProduct: {
+                item: '',
+                name: '',
+                starting_price: '',
+                increment_value: ''
             },
         };
     },
@@ -96,13 +132,29 @@ export default {
                 this.$router.push('/login');
             }
         },
+        async addProduct() {
+            const auctionData = await getItem(this.newProduct.item);
+            const auctionCategory = auctionData.category;
+            if (this.newProductCategory === 'Veículo' && this.newProductCategory === auctionCategory) {
+                await createVehicle(this.newProduct);
+                alert(`Veículo adicionado ao Leilão ${this.newProduct.item}`)
+            }
+            else if (this.newProductCategory === 'Imóvel' && this.newProductCategory === auctionCategory) {
+                await createRealEstate(this.newProduct);
+                alert(`Imóvel adicionado ao Leilão ${this.newProduct.item}`)
+            }
+            else {
+                alert(`Falha ao criar produto. Tem certeza de que o leilão escolhido é de ${this.newProductCategory}?`)
+            }
+            this.newProduct.item = '';
+            this.newProduct.name = '';
+            this.newProduct.starting_price = '';
+            this.newProduct.increment_value = '';
+            this.newProductCategory = '';
+        },
         async addItem() {
-            console.log('2')
-            console.log(this.newItem.auction_date);
             const item = await createItem(this.newItem);
             this.items.push(item);
-            console.log('3')
-            console.log(this.newItem.auction_date);
             this.newItem.creator = '';
             this.newItem.category = '';
             this.newItem.auction_date = '';
@@ -143,3 +195,8 @@ export default {
     },
 };
 </script>
+
+<!-- Criar o campo de criar veículo -->
+<!-- Fazer dropdown pro leilao_id -->
+<!-- Criar o campo de criar imóvel -->
+<!-- Fazer dropdown pro leilao_id -->
