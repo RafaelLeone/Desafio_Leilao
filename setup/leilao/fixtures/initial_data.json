@@ -26,5 +26,45 @@
             "state": "Another State",
             "street": "Another Street"
         }
+    },
+    {
+        "model": "leilao.vehicle",
+        "pk": 1,
+        "fields": {
+            "item": 1,
+            "name": "Carro 1",
+            "starting_price": "10000.00",
+            "increment_value": "500.00"
+        }
+    },
+    {
+        "model": "leilao.vehicle",
+        "pk": 2,
+        "fields": {
+            "item": 1,
+            "name": "Carro 2",
+            "starting_price": "20000.00",
+            "increment_value": "1000.00"
+        }
+    },
+    {
+        "model": "leilao.realestate",
+        "pk": 1,
+        "fields": {
+            "item": 2,
+            "name": "Casa 1",
+            "starting_price": "300000.00",
+            "increment_value": "15000.00"
+        }
+    },
+    {
+        "model": "leilao.realestate",
+        "pk": 2,
+        "fields": {
+            "item": 2,
+            "name": "Apartamento 1",
+            "starting_price": "400000.00",
+            "increment_value": "20000.00"
+        }
     }
 ]
