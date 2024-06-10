@@ -6,7 +6,7 @@ from rest_framework.response import Response
 from .views import ItemViewSet, RealEstateDetailView, RealEstateEditView, RegisterView, LoginView, LogoutView, ItemDetailView, ItemEditView, RealEstateViewSet, VehicleDetailView, VehicleEditView, VehicleViewSet, UserViewSet, UserDetailView
 from django.contrib.auth.models import User
 from django.http import JsonResponse
-from .models import RealEstate
+from .models import RealEstate, Vehicle
 
 
 router = DefaultRouter()
@@ -44,6 +44,32 @@ def add_bid(request, realestate_id):
     except Exception as e:
         return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
+@api_view(['POST'])
+def add_vehicle_bid(request, vehicle_id):
+    try:
+        vehicle = Vehicle.objects.get(id=vehicle_id)
+        print(f'history {Vehicle.objects.get(id=vehicle_id).bid_history}')
+        bid_data = request.data
+        user = request.user.username
+        bid = {
+            "user": user,
+            "bid": bid_data['bid']
+        }
+        print(f'history {vehicle.bid_history}')
+        if not vehicle.bid_history:
+            print('entra aqii')
+            vehicle.bid_history = []
+        vehicle.bid_history.append(bid)
+        print(f'history {vehicle.bid_history}')
+        print(f'bid {bid}')
+        vehicle.save()
+        print(f'updated history {Vehicle.objects.get(id=vehicle_id).bid_history}')
+        return Response({"message": "Bid added"}, status=status.HTTP_200_OK)
+    except Vehicle.DoesNotExist:
+        return Response({"error": "Real estate not found"}, status=status.HTTP_404_NOT_FOUND)
+    except Exception as e:
+        return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+
 urlpatterns = [
     path('', include(router.urls)),
     path('register/', RegisterView.as_view(), name='register'),
@@ -56,5 +82,6 @@ urlpatterns = [
     path('realestates/<int:realestate_id>/edit/', RealEstateEditView.as_view(), name='real-estate-edit'),
     path('vehicles/<int:vehicle_id>/', VehicleDetailView.as_view(), name='vehicle-detail'),
     path('vehicles/<int:vehicle_id>/edit/', VehicleEditView.as_view(), name='vehicle-edit'),
-    path('realestates/<int:realestate_id>/add_bid/', add_bid, name='add-bid')
+    path('realestates/<int:realestate_id>/add_bid/', add_bid, name='add-bid'),
+    path('vehicles/<int:vehicle_id>/add_bid/', add_vehicle_bid, name='add-vehicle-bid')
 ]

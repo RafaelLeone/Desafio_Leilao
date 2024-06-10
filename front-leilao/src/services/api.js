@@ -125,3 +125,17 @@ export const addBid = async (realEstateId, bidData) => {
     throw error;
   }
 };
+
+export const addVehicleBid = async (vehicleId, bidData) => {
+  try {
+    const response = await axios.post(`${API_URL}vehicles/${vehicleId}/add_bid/`, bidData, {
+      headers: {
+        'Authorization': `Token ${localStorage.getItem('token')}`
+      }
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Error adding bid:', error);
+    throw error;
+  }
+};

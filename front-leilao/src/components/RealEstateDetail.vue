@@ -87,16 +87,13 @@
       async confirmBid() {
         const incrementValue = this.bidValue - this.realEstate.starting_price;
         const remainderValue = incrementValue % this.realEstate.increment_value;
-        if (remainderValue === 0) {
+        if (remainderValue === 0 && this.bidValue > this.realEstate.starting_price) {
             try {
                 await addBid(this.realEstate.id, {
                     user: localStorage.username,
                     bid: this.bidValue
                 });
                 await this.fetchRealEstate();
-                console.log(this.bidValue);
-                console.log(this.realEstate);
-                console.log(this.editedRealEstate);
                 this.editedRealEstate.starting_price = this.bidValue;
                 await this.saveChanges()
                 }
