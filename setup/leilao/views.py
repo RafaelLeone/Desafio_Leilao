@@ -64,7 +64,6 @@ class ItemViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
 
     def create(self, request, *args, **kwargs):
-        print("Received data:", request.data)
         return super().create(request, *args, **kwargs)
 
 class RealEstateViewSet(viewsets.ModelViewSet):

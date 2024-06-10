@@ -18,13 +18,14 @@ class Item(models.Model):
     state = models.CharField(max_length=100)
 
     def __str__(self):
-        return self.name
+        return str(self.id)
 
 class RealEstate(models.Model):
     item = models.ForeignKey(Item, related_name='real_estates', on_delete=models.CASCADE)
     name = models.CharField(max_length=200)
     starting_price = models.DecimalField(max_digits=10, decimal_places=2)
     increment_value = models.DecimalField(max_digits=10, decimal_places=2)
+    bid_history = models.JSONField(default=list)
 
     def __str__(self):
         return self.name
@@ -34,6 +35,7 @@ class Vehicle(models.Model):
     name = models.CharField(max_length=200)
     starting_price = models.DecimalField(max_digits=10, decimal_places=2)
     increment_value = models.DecimalField(max_digits=10, decimal_places=2)
+    bid_history = models.JSONField(default=list)
 
     def __str__(self):
         return self.name

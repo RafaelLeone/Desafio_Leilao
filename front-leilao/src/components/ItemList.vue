@@ -189,14 +189,7 @@ export default {
 
             const formattedDateString = `${year}-${month}-${day}`;
             this.newItem.auction_date = formattedDateString;
-            console.log('1')
-            console.log(this.newItem.auction_date);
         }
     },
 };
 </script>
-
-<!-- Criar o campo de criar veículo -->
-<!-- Fazer dropdown pro leilao_id -->
-<!-- Criar o campo de criar imóvel -->
-<!-- Fazer dropdown pro leilao_id -->
