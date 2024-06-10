@@ -8,13 +8,17 @@
       <div v-if="item.category === 'Imóvel'">
           <h2>Lista de imóveis para leilão:</h2>
           <ul>
-            <li v-for="estate in item.real_estates" :key="estate.id">{{ estate.name }} - {{ estate.starting_price }}</li>
+            <li v-for="estate in item.real_estates" :key="estate.id">{{ estate.name }} - {{ estate.starting_price }}
+              <router-link :to="{ name: 'RealEstateDetail', params: { id: estate.id }}">{{ estate.name }}</router-link>
+            </li>
           </ul>
         </div>
         <div v-if="item.category === 'Veículo'">
           <h2>Lista de veículos para leilão:</h2>
           <ul>
-            <li v-for="vehicle in item.vehicles" :key="vehicle.id">{{ vehicle.name }} - {{ vehicle.starting_price }}</li>
+            <li v-for="vehicle in item.vehicles" :key="vehicle.id">{{ vehicle.name }} - {{ vehicle.starting_price }}
+              <router-link :to="{ name: 'VehicleDetail', params: { id: vehicle.id }}">{{ vehicle.name }}</router-link>
+            </li>
           </ul>
         </div>
       <div v-if="isEditor">

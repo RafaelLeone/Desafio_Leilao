@@ -4,6 +4,8 @@ import ItemList from '@/components/ItemList.vue';
 import ItemDetail from '@/components/ItemDetail.vue';
 import LoginPage from '@/components/LoginPage.vue';
 import RegisterPage from '@/components/RegisterPage.vue';
+import VehicleDetail from '@/components/VehicleDetail';
+import RealEstateDetail from '@/components/RealEstateDetail';
 import { isAuthenticated } from '@/services/auth'; // Implement this function to check if the user is authenticated
 
 Vue.use(VueRouter);
@@ -31,6 +33,18 @@ const routes = [
     name: 'RegisterPage',
     component: RegisterPage,
   },
+  {
+    path: '/vehicle/:id/',
+    name: 'VehicleDetail',
+    component: VehicleDetail,
+    meta: { requiresAuth: true },
+  },
+  {
+    path: '/realestate/:id/',
+    name: 'RealEstateDetail',
+    component: RealEstateDetail,
+    meta: { requiresAuth: true },
+  }
 ];
 
 const router = new VueRouter({
