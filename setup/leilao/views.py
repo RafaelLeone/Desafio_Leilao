@@ -110,3 +110,57 @@ class UserDetailView(generics.RetrieveAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
     lookup_field = 'username'
+
+class RealEstateDetailView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, realestate_id):
+        try:
+            realestate = RealEstate.objects.get(id=realestate_id)
+            serializer = RealEstateSerializer(realestate)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        except RealEstate.DoesNotExist:
+            return Response({'error': 'Real Estate not found'}, status=status.HTTP_404_NOT_FOUND)
+
+class RealEstateEditView(APIView):
+    permission_classes = [IsAuthenticated, IsEditor]
+
+    def put(self, request, realestateid):
+        realestate = RealEstate.objects.get(id=realestateid)
+        serializer = RealEstateSerializer(realestate, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, realestate_id):
+        realestate = RealEstate.objects.get(id=realestate_id)
+        realestate.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+class VehicleDetailView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, vehicle_id):
+        try:
+            vehicle = Vehicle.objects.get(id=vehicle_id)
+            serializer = VehicleSerializer(vehicle)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        except Vehicle.DoesNotExist:
+            return Response({'error': 'Vehicle not found'}, status=status.HTTP_404_NOT_FOUND)
+
+class VehicleEditView(APIView):
+    permission_classes = [IsAuthenticated, IsEditor]
+
+    def put(self, request, vehicle_id):
+        vehicle = Vehicle.objects.get(id=vehicle_id)
+        serializer = VehicleSerializer(vehicle, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, vehicle_id):
+        vehicle = Vehicle.objects.get(id=vehicle_id)
+        vehicle.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)

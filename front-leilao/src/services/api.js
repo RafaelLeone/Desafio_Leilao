@@ -60,6 +60,7 @@ export const updateItem = async (itemId, item) => {
   return response.data;
 };
 
+// Login APIs
 export const login = async (credentials) => {
   const response = await axios.post(`${API_URL}token/`, credentials);
   localStorage.setItem('token', response.data.token);
@@ -70,3 +71,43 @@ export const register = async (userData) => {
   const response = await axios.post(`${API_URL}register/`, userData);
   return response.data;
 };
+
+// Vehicle APIs
+export async function createVehicle(vehicle) {
+  const response = await axiosInstance.post(`vehicles/`, vehicle);
+  return response.data;
+}
+
+export async function getVehicle(vehicleId) {
+  const response = await axiosInstance.get(`vehicles/${vehicleId}/`);
+  return response.data;
+}
+
+export async function updateVehicle(vehicleId, vehicle) {
+  const response = await axiosInstance.put(`vehicles/${vehicleId}/`, vehicle);
+  return response.data;
+}
+
+export async function deleteVehicle(vehicleId) {
+  await axiosInstance.delete(`vehicles/${vehicleId}/`);
+}
+
+// RealEstate APIs
+export async function createRealEstate(realEstate) {
+  const response = await axiosInstance.post(`realestates/`, realEstate);
+  return response.data;
+}
+
+export async function getRealEstate(realEstateId) {
+  const response = await axiosInstance.get(`realestates/${realEstateId}/`);
+  return response.data;
+}
+
+export async function updateRealEstate(realEstateId, realEstate) {
+  const response = await axiosInstance.put(`realestates/${realEstateId}/`, realEstate);
+  return response.data;
+}
+
+export async function deleteRealEstate(realEstateId) {
+  await axiosInstance.delete(`realestates/${realEstateId}/`);
+}
