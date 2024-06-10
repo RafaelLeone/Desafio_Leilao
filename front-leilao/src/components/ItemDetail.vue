@@ -130,8 +130,6 @@ export default {
 
         const formattedDateString = `${year}-${month}-${day}`;
         this.editedItem.auction_date = formattedDateString;
-        console.log('1')
-        console.log(this.editedItem.auction_date);
     }
   }
 };

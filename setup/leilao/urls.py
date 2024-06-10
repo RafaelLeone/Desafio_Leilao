@@ -22,22 +22,16 @@ def pega_usuario(request, username):
 def add_bid(request, realestate_id):
     try:
         real_estate = RealEstate.objects.get(id=realestate_id)
-        print(f'history {RealEstate.objects.get(id=realestate_id).bid_history}')
         bid_data = request.data
         user = request.user.username
         bid = {
             "user": user,
             "bid": bid_data['bid']
         }
-        print(f'history {real_estate.bid_history}')
         if not real_estate.bid_history:
-            print('entra aqii')
             real_estate.bid_history = []
         real_estate.bid_history.append(bid)
-        print(f'history {real_estate.bid_history}')
-        print(f'bid {bid}')
         real_estate.save()
-        print(f'updated history {RealEstate.objects.get(id=realestate_id).bid_history}')
         return Response({"message": "Bid added"}, status=status.HTTP_200_OK)
     except RealEstate.DoesNotExist:
         return Response({"error": "Real estate not found"}, status=status.HTTP_404_NOT_FOUND)
@@ -48,22 +42,16 @@ def add_bid(request, realestate_id):
 def add_vehicle_bid(request, vehicle_id):
     try:
         vehicle = Vehicle.objects.get(id=vehicle_id)
-        print(f'history {Vehicle.objects.get(id=vehicle_id).bid_history}')
         bid_data = request.data
         user = request.user.username
         bid = {
             "user": user,
             "bid": bid_data['bid']
         }
-        print(f'history {vehicle.bid_history}')
         if not vehicle.bid_history:
-            print('entra aqii')
             vehicle.bid_history = []
         vehicle.bid_history.append(bid)
-        print(f'history {vehicle.bid_history}')
-        print(f'bid {bid}')
         vehicle.save()
-        print(f'updated history {Vehicle.objects.get(id=vehicle_id).bid_history}')
         return Response({"message": "Bid added"}, status=status.HTTP_200_OK)
     except Vehicle.DoesNotExist:
         return Response({"error": "Real estate not found"}, status=status.HTTP_404_NOT_FOUND)
