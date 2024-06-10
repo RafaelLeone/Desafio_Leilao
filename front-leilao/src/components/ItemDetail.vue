@@ -5,20 +5,21 @@
       <p>Leilão de {{ item.category }}</p>
       <p>Data do leilão: {{ item.auction_date }}</p>
       <p>by {{ item.creator_username }}</p>
-      <div v-if="item.category === 'Real Estate'">
-        <h2>Lista de imóveis para leilão</h2>
-        <ul>
-          <li v-for="estate in item.real_estates" :key="estate.id">{{ estate.field_name }}</li>
-        </ul>
-      </div>
-      <div v-if="item.category === 'Vehicle'">
-        <h2>Lista de veículos para leilão</h2>
-        <ul>
-          <li v-for="vehicle in item.vehicles" :key="vehicle.id">{{ vehicle.field_name }}</li>
-        </ul>
-      </div>
+      <div v-if="item.category === 'Imóvel'">
+          <h2>Lista de imóveis para leilão:</h2>
+          <ul>
+            <li v-for="estate in item.real_estates" :key="estate.id">{{ estate.name }} - {{ estate.starting_price }}</li>
+          </ul>
+        </div>
+        <div v-if="item.category === 'Veículo'">
+          <h2>Lista de veículos para leilão:</h2>
+          <ul>
+            <li v-for="vehicle in item.vehicles" :key="vehicle.id">{{ vehicle.name }} - {{ vehicle.starting_price }}</li>
+          </ul>
+        </div>
       <div v-if="isEditor">
         <div>
+          <h2>Edite este leilão:</h2>
           <label>Categoria:</label>
           <div>
               <input type="radio" id="veiculo" value="Veículo" v-model="editedItem.category">

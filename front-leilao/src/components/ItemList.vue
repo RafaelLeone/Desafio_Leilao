@@ -9,11 +9,12 @@
                 <p>{{ item.auction_time }}</p>
                 <p>{{ item.city }}, {{ item.state }}</p>
                 <p><button @click="viewItem(item.id)">Ver detalhes do leilão</button></p>
-                <p><button v-if="isEditor" @click="deleteItem(item.id)">Delete</button></p>
+                <p><button v-if="isEditor" @click="deleteItem(item.id)">Delete este leilão</button></p>
             </li>
         </ul>
         <form v-if="isEditor" @submit.prevent="addItem">
             <div>
+                <h2>Adicione um novo leilão:</h2>
                 <label>Categoria:</label>
                 <div>
                     <input type="radio" id="veiculo" value="Veículo" v-model="newItem.category">
