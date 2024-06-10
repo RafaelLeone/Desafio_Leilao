@@ -111,3 +111,17 @@ export async function updateRealEstate(realEstateId, realEstate) {
 export async function deleteRealEstate(realEstateId) {
   await axiosInstance.delete(`realestates/${realEstateId}/`);
 }
+
+export const addBid = async (realEstateId, bidData) => {
+  try {
+    const response = await axios.post(`${API_URL}realestates/${realEstateId}/add_bid/`, bidData, {
+      headers: {
+        'Authorization': `Token ${localStorage.getItem('token')}`
+      }
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Error adding bid:', error);
+    throw error;
+  }
+};
