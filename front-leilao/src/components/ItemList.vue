@@ -1,6 +1,10 @@
 <template>
     <div>
-        <button @click="logout">Logout</button>
+        <div class="top-buttons">
+            <button v-if="isEditor" @click="scrollToBottom">Formulário de criação</button>
+            <button @click="logout">Logout</button>
+            
+        </div>
         <div>
 
                 <h1>Leilões</h1>
@@ -199,6 +203,12 @@ export default {
 
             const formattedDateString = `${year}-${month}-${day}`;
             this.newItem.auction_date = formattedDateString;
+        },
+        scrollToBottom() {
+            window.scrollTo({
+                top: document.body.scrollHeight,
+                behavior: 'smooth'
+            });
         }
     },
 };
@@ -212,4 +222,9 @@ export default {
     background: #333;
     color: #fff;
   }
-  </style>
+  .top-buttons {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+  }
+</style>
