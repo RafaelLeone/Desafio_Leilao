@@ -15,10 +15,14 @@ services:
 
   vue:
     build: ./front-leilao
+    volumes:
+      - ./front-leilao:/app
+      - /app/node_modules
     ports:
       - "8080:8080"
     stdin_open: true
     tty: true
+    command: npm run serve
 
   db:
     image: postgres:13
