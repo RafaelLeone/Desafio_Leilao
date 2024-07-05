@@ -2,6 +2,8 @@
 
 WIP
 
+![Project Sample Front Page](./Screenshot%20from%202024-07-05%2016-56-42.png)
+
 Create .env file.
 
 docker-compose up --build

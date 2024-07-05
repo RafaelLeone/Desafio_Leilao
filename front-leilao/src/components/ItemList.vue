@@ -3,29 +3,30 @@
         <div class="top-buttons">
             <button v-if="isEditor" @click="scrollToBottom">Formulário de criação</button>
             <button @click="logout">Logout</button>
-            
         </div>
         <div class="container">
-
-                <h1>Leilões</h1>
-                <div v-for="item in items" :key="item.id" class="item-list">
-                    <div class="flexing">
-                        <div class="padding">
-                        </div>
-                        <div class="item-header">
-                            <p>Leilão {{ item.id }}</p>
-                            <p>{{ item.category }}</p>
-                        </div>
-                        <div class="item-body">
+            <div v-for="item in items" :key="item.id" class="item-list">
+                <div class="flexing">
+                    <div class="padding">
+                    </div>
+                    <div class="item-header">
+                        <p>Leilão {{ item.id }}</p>
+                        <p>{{ item.category }}</p>
+                    </div>
+                    <div class="item-body">
+                        <div>
                             <p>{{ item.auction_date_display }}</p>
                             <p>{{ item.auction_time }}</p>
                             <p>{{ item.city }}, {{ item.state }}</p>
                             <p><button @click="viewItem(item.id)" class="details-button">Ver detalhes do leilão</button></p>
                             <p><button v-if="isEditor" @click="deleteItem(item.id)" class="delete-button">Delete este leilão</button></p>
                         </div>
+                        <div class="item-live">
+                            <p>LIVE @</p>
+                        </div>
                     </div>
                 </div>
-
+            </div>
         </div>
         <div>
             <form v-if="isEditor" @submit.prevent="addItem">
@@ -254,6 +255,16 @@ export default {
     padding: 10px;
     font-size: 16px;
     width: 70%;
+    display: flex;
+    justify-content: space-between;
+    }
+
+    .item-live {
+        background-color: #ff0044;
+        max-height: 30px;
+        padding: 0px 12px;
+        color: #fff;
+        font-weight: bolder;
     }
 
     .item-body p {
