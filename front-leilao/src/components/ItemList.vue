@@ -1,79 +1,97 @@
 <template>
     <div>
-        <button @click="logout">Logout</button>
-        <h1>Leilões</h1>
-        <ul>
-            <li v-for="item in items" :key="item.id"> 
-                <p>Leilão {{ item.id }}: {{ item.category }}</p>
-                <p>{{ item.auction_date_display }}</p>
-                <p>{{ item.auction_time }}</p>
-                <p>{{ item.city }}, {{ item.state }}</p>
-                <p><button @click="viewItem(item.id)">Ver detalhes do leilão</button></p>
-                <p><button v-if="isEditor" @click="deleteItem(item.id)">Delete este leilão</button></p>
-            </li>
-        </ul>
-        <form v-if="isEditor" @submit.prevent="addItem">
-            <div>
-                <h2>Adicione um novo leilão:</h2>
-                <label>Categoria:</label>
-                <div>
-                    <input type="radio" id="veiculo" value="Veículo" v-model="newItem.category">
-                    <label for="veiculo">Veículo</label>
-                    <input type="radio" id="imovel" value="Imóvel" v-model="newItem.category">
-                    <label for="imovel">Imóvel</label>
+        <div class="top-buttons">
+            <button v-if="isEditor" @click="scrollToBottom">Formulário de criação</button>
+            <button @click="logout">Logout</button>
+        </div>
+        <div class="container">
+            <div v-for="item in items" :key="item.id" class="item-list">
+                <div class="flexing">
+                    <div class="padding">
+                    </div>
+                    <div class="item-header">
+                        <p>Leilão {{ item.id }}</p>
+                        <p>{{ item.category }}</p>
+                    </div>
+                    <div class="item-body">
+                        <div>
+                            <p>{{ item.auction_date_display }}</p>
+                            <p>{{ item.auction_time }}</p>
+                            <p>{{ item.city }}, {{ item.state }}</p>
+                            <p><button @click="viewItem(item.id)" class="details-button">Ver detalhes do leilão</button></p>
+                            <p><button v-if="isEditor" @click="deleteItem(item.id)" class="delete-button">Delete este leilão</button></p>
+                        </div>
+                        <div class="item-live">
+                            <p>LIVE @</p>
+                        </div>
+                    </div>
                 </div>
-                <div>
-                    <label>Data do leilão:</label>
-                    <datetime v-model="auction_date" format="dd/MM/yyyy" required :useUtc="false"></datetime>
-                </div>
-                <div>
-                    <label>Horário do leilão:</label>
-                    <input type="time" v-model="newItem.auction_time" required>
-                </div>
-                <div>
-                    <label for="city">Cidade</label>
-                    <input id="city" v-model="newItem.city" placeholder="Cidade" required />
-                </div>
-                <div>
-                    <label for="state">Estado</label>
-                    <input id="state" v-model="newItem.state" placeholder="Estado" required />
-                </div>
-                <div>
-                    <label for="street">Endereço</label>
-                    <input id="street" v-model="newItem.street" placeholder="Endereço" required />
-                </div>
-                <button type="submit">Adicionar leilão</button>
             </div>
-        </form>
-        <form v-if="isEditor" @submit.prevent="addProduct">
-            <div>
-                <h2>Adicione um novo produto:</h2>
-                <label>Categoria:</label>
+        </div>
+        <div>
+            <form v-if="isEditor" @submit.prevent="addItem">
                 <div>
-                    <input type="radio" id="veiculo" value="Veículo" v-model="newProductCategory">
-                    <label for="veiculo">Veículo</label>
-                    <input type="radio" id="imovel" value="Imóvel" v-model="newProductCategory">
-                    <label for="imovel">Imóvel</label>
+                    <h2>Adicione um novo leilão:</h2>
+                    <label>Categoria:</label>
+                    <div>
+                        <input type="radio" id="veiculo" value="Veículo" v-model="newItem.category">
+                        <label for="veiculo">Veículo</label>
+                        <input type="radio" id="imovel" value="Imóvel" v-model="newItem.category">
+                        <label for="imovel">Imóvel</label>
+                    </div>
+                    <div>
+                        <label>Data do leilão:</label>
+                        <datetime v-model="auction_date" format="dd/MM/yyyy" required :useUtc="false"></datetime>
+                    </div>
+                    <div>
+                        <label>Horário do leilão:</label>
+                        <input type="time" v-model="newItem.auction_time" required>
+                    </div>
+                    <div>
+                        <label for="city">Cidade</label>
+                        <input id="city" v-model="newItem.city" placeholder="Cidade" required />
+                    </div>
+                    <div>
+                        <label for="state">Estado</label>
+                        <input id="state" v-model="newItem.state" placeholder="Estado" required />
+                    </div>
+                    <div>
+                        <label for="street">Endereço</label>
+                        <input id="street" v-model="newItem.street" placeholder="Endereço" required />
+                    </div>
+                    <button type="submit">Adicionar leilão</button>
                 </div>
+            </form>
+            <form v-if="isEditor" @submit.prevent="addProduct">
                 <div>
-                    <label>Nome/descrição do produto:</label>
-                    <input v-model="newProduct.name" required>
+                    <h2>Adicione um novo produto:</h2>
+                    <label>Categoria:</label>
+                    <div>
+                        <input type="radio" id="veiculo" value="Veículo" v-model="newProductCategory">
+                        <label for="veiculo">Veículo</label>
+                        <input type="radio" id="imovel" value="Imóvel" v-model="newProductCategory">
+                        <label for="imovel">Imóvel</label>
+                    </div>
+                    <div>
+                        <label>Nome/descrição do produto:</label>
+                        <input v-model="newProduct.name" required>
+                    </div>
+                    <div>
+                        <label>Preço do produto:</label>
+                        <input v-model="newProduct.starting_price" required>
+                    </div>
+                    <div>
+                        <label>Valor do incremento:</label>
+                        <input v-model="newProduct.increment_value" required>
+                    </div>
+                    <div>
+                        <label>Leilão:</label>
+                        <input v-model="newProduct.item" required>
+                    </div>
+                    <button type="submit">Adicionar produto</button>
                 </div>
-                <div>
-                    <label>Preço do produto:</label>
-                    <input v-model="newProduct.starting_price" required>
-                </div>
-                <div>
-                    <label>Valor do incremento:</label>
-                    <input v-model="newProduct.increment_value" required>
-                </div>
-                <div>
-                    <label>Leilão:</label>
-                    <input v-model="newProduct.item" required>
-                </div>
-                <button type="submit">Adicionar produto</button>
-            </div>
-        </form>
+            </form>
+        </div>
     </div>
 </template>
 
@@ -189,7 +207,106 @@ export default {
 
             const formattedDateString = `${year}-${month}-${day}`;
             this.newItem.auction_date = formattedDateString;
+        },
+        scrollToBottom() {
+            window.scrollTo({
+                top: document.body.scrollHeight,
+                behavior: 'smooth'
+            });
         }
     },
 };
 </script>
+
+<style scoped>
+    /* Global styles */
+    html, body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f8f8f8;
+    }
+
+    h1 {
+    text-align: center;
+    margin-bottom: 20px;
+    }
+
+    /* Item list styles */
+    .item-list {
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    background-color: #fafafa;
+    display: flex;
+    }
+
+    .item-header {
+    background-color: #b6e3f7;
+    color: black;
+    padding: 30px;
+    font-size: 18px;
+    font-weight: bolder;
+    width: 30%;
+    align-items: center;
+    text-align: center;
+    }
+
+    .item-body {
+    padding: 10px;
+    font-size: 16px;
+    width: 70%;
+    display: flex;
+    justify-content: space-between;
+    }
+
+    .item-live {
+        background-color: #ff0044;
+        max-height: 30px;
+        padding: 0px 12px;
+        color: #fff;
+        font-weight: bolder;
+    }
+
+    .item-body p {
+    margin: 5px 0;
+    }
+
+    .details-button, .delete-button {
+    margin-top: 10px;
+    padding: 10px;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    }
+
+    .details-button {
+    background-color: #a5ffa2;
+    color: black;
+    }
+
+    .delete-button {
+    background-color: #ffaba7;
+    color: black;
+    }
+
+    .details-button:hover, .delete-button:hover {
+    opacity: 0.8;
+    }
+
+    .top-buttons {
+        display: flex;
+        justify-content: space-between;
+        padding: 10px;
+    }
+
+    .flexing {
+        display: flex;
+        width: 100%;
+    }
+
+    .padding {
+        padding-left: 10px;
+        background-color: #0da3e4;
+    }
+
+</style>
