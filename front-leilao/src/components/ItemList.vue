@@ -5,20 +5,22 @@
             <button @click="logout">Logout</button>
             
         </div>
-        <div>
+        <div class="container">
 
                 <h1>Leilões</h1>
-                <div v-for="item in items" :key="item.id">
-                    <div class="item-list">
-                        <div>
+                <div v-for="item in items" :key="item.id" class="item-list">
+                    <div class="flexing">
+                        <div class="padding">
+                        </div>
+                        <div class="item-header">
                             <p>Leilão {{ item.id }}: {{ item.category }}</p>
                         </div>
-                        <div>
+                        <div class="item-body">
                             <p>{{ item.auction_date_display }}</p>
                             <p>{{ item.auction_time }}</p>
                             <p>{{ item.city }}, {{ item.state }}</p>
-                            <p><button @click="viewItem(item.id)">Ver detalhes do leilão</button></p>
-                            <p><button v-if="isEditor" @click="deleteItem(item.id)">Delete este leilão</button></p>
+                            <p><button @click="viewItem(item.id)" class="details-button">Ver detalhes do leilão</button></p>
+                            <p><button v-if="isEditor" @click="deleteItem(item.id)" class="delete-button">Delete este leilão</button></p>
                         </div>
                     </div>
                 </div>
@@ -214,17 +216,79 @@ export default {
 };
 </script>
 
-<style>
-  .item-list {
+<style scoped>
+    /* Global styles */
+    html, body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f8f8f8;
+    }
+
+    h1 {
+    text-align: center;
+    margin-bottom: 20px;
+    }
+
+    /* Item list styles */
+    .item-list {
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    background-color: #fafafa;
     display: flex;
-    justify-content: space-between;
+    }
+
+    .item-header {
+    background-color: #b6e3f7;
+    color: black;
     padding: 10px;
-    background: #333;
-    color: #fff;
-  }
-  .top-buttons {
-    display: flex;
-    justify-content: space-between;
+    font-size: 18px;
+    }
+
+    .item-body {
     padding: 10px;
-  }
+    font-size: 16px;
+    }
+
+    .item-body p {
+    margin: 5px 0;
+    }
+
+    .details-button, .delete-button {
+    margin-top: 10px;
+    padding: 10px;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    }
+
+    .details-button {
+    background-color: #a5ffa2;
+    color: black;
+    }
+
+    .delete-button {
+    background-color: #ffaba7;
+    color: black;
+    }
+
+    .details-button:hover, .delete-button:hover {
+    opacity: 0.8;
+    }
+
+    .top-buttons {
+        display: flex;
+        justify-content: space-between;
+        padding: 10px;
+    }
+
+    .flexing {
+        display: flex;
+    }
+
+    .padding {
+        padding-left: 10px;
+        background-color: #0da3e4;
+    }
+
 </style>
