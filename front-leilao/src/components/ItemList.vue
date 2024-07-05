@@ -13,7 +13,8 @@
                         <div class="padding">
                         </div>
                         <div class="item-header">
-                            <p>Leilão {{ item.id }}: {{ item.category }}</p>
+                            <p>Leilão {{ item.id }}</p>
+                            <p>{{ item.category }}</p>
                         </div>
                         <div class="item-body">
                             <p>{{ item.auction_date_display }}</p>
@@ -241,13 +242,18 @@ export default {
     .item-header {
     background-color: #b6e3f7;
     color: black;
-    padding: 10px;
+    padding: 30px;
     font-size: 18px;
+    font-weight: bolder;
+    width: 30%;
+    align-items: center;
+    text-align: center;
     }
 
     .item-body {
     padding: 10px;
     font-size: 16px;
+    width: 70%;
     }
 
     .item-body p {
@@ -284,6 +290,7 @@ export default {
 
     .flexing {
         display: flex;
+        width: 100%;
     }
 
     .padding {

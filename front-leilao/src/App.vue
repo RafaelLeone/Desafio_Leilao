@@ -21,19 +21,10 @@ export default {
 </script>
 
 <style scoped>
-html, body {
-  margin: 0;
-  padding: 0;
-  width: 100%;
-  height: 100%;
-  font-family: Arial, sans-serif;
-}
-
 #app {
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 100vh;
   background-color: #f8f8f8;
 }
 
@@ -42,8 +33,7 @@ html, body {
   max-width: 800px;
   margin: 0 auto;
   background-color: #fff;
-  padding: 20px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  padding: 0px 20px 20px;
 }
 
 header {

@@ -36,7 +36,7 @@
   .top-nav {
     display: flex;
     justify-content: space-between;
-    padding: 10px;
+    padding: 20px;
     background: #333;
     color: #fff;
   }
